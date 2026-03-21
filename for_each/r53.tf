@@ -1,10 +1,11 @@
 resource "aws_route53_record" "www" {
-    count = 10
+    for_each = aws_instance.example
     zone_id = var.zone_id
-    name    = "${var.instance[count.index]}.${var.domain_name}"
+    name    = "${each.key}.${var.domain_name}"
     type    = "A"
     ttl     = 1
-    records = [aws_instance.example[count.index].private_ip]
+    records = [each.value.private_ip]
+    allow_overwrite = true
 }
 
 resource "aws_route53_record" "www" {
@@ -12,5 +13,6 @@ resource "aws_route53_record" "www" {
     name    = "roboshop.${var.domain_name}"
     type    = "A"
     ttl     = 1
-    records = [aws_instance.example[index(var.instance, "frontend")].public_ip]
+    records = [lookup(aws_instance.example, "frontend").public_ip]
+    allow_overwrite = true
 }

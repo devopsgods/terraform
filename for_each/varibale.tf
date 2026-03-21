@@ -7,3 +7,12 @@ variable "instances" {
         shipping = "t3.micro"
     }
 }
+
+variable "zone_id" {
+  default = "Z0973553XTLPCFXP4F0S"
+
+}
+
+variable "domain_name" {
+  default = "karegowdra.com"
+}
